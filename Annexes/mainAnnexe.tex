@@ -1,0 +1,30 @@
+% Pour faire une référence d'une annexe
+% (Annexe \ref{sec:nomsection} page~\pageref{sec:nomsection})
+\section{First appendix}
+\label{sec:firstAppendix}
+\begin{figure}[H]
+	\centering
+	% \includegraphics[keepaspectratio=true, width=0.7\textwidth]{Annexes/i/refletsDeLOmbreFantaisie.jpg}
+	\caption{First appendix caption}
+	\label{fig:firstAppendix}	
+	\medskip
+	\small
+	\it
+	Source citation and descriptive text.
+\end{figure}
+\clearpage
+
+% Appendix declaration with a 90° rotated figure
+\rotatebox{90}{
+\begin{minipage}{0.95\textheight}
+	\section{Appendix with rotated figure}
+	\label{sec:appendixWithRotatedFig}
+	% \includegraphics[keepaspectratio=true, width=\textwidth]{Annexes/i/exempleAlirezaFarhang.png}
+	\captionof{figure}{Caption of Appendix with rotated figure}
+	\label{fig:appendixWithRotatedFigure}	
+	\medskip
+	\small
+	\it
+	Source citation and descriptive text.
+\end{minipage}}
+\clearpage

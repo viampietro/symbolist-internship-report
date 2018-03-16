@@ -1,0 +1,207 @@
+\documentclass[a4paper, oneside]{book}
+
+%% Language and font encodings
+\usepackage[frenchb]{babel}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+% creation de la commande circled, mot entoure d'un cercle
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{% <---- BEWARE
+            \node[shape=circle,draw,inner sep=2pt, color=pumpkin] (char) {#1};}}
+
+% Using \hfuzz allows \hbox to be overfull to the given amount before a warning is raised
+\hfuzz = 5pt
+
+% quotes package
+\usepackage[autostyle, maxlevel = 2]{csquotes}
+
+% bibliography package            
+\usepackage[backend = biber, style = numeric]{biblatex}   
+\addbibresource{references.bib}            
+
+% glossary package
+\usepackage{nameref}
+\usepackage[toc, numberedsection=nameref]{glossaries}
+
+% loading glossary file
+\loadglsentries{Glossaire/glossaire.tex} 
+\makeglossaries
+
+% package for references and links 
+\usepackage{caption}
+
+% package for insertion of pdf pages
+\usepackage{pdfpages}
+
+% package to change behavior of floats numbering
+\usepackage{chngcntr}
+\counterwithout{figure}{chapter}
+
+% pour les images
+\usepackage{graphicx}
+\usepackage{caption} 
+\usepackage{float} 
+\usepackage{wrapfig}
+
+%% pour les tableaux
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{slashbox}
+\usepackage{colortbl}
+\usepackage{framed}
+\usepackage{adjustbox}
+
+% pour les maths
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}  
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+
+%% package for landscape page view
+\usepackage{pdflscape}
+\usepackage{rotating}
+
+%% pour dessiner des graphiques et des schemas
+\usepackage{tikz}
+\usepackage{tkz-graph}
+\usetikzlibrary{calc, decorations.pathreplacing}
+
+% Pgfplots
+\usepackage{pgfplotstable}
+\usepackage{pgfplots}
+\usetikzlibrary{pgfplots.groupplots}
+\pgfplotsset{compat=1.12}
+
+% définitions des couleurs
+\usepackage{color}
+  \definecolor{grey}{rgb}{0.4,0.4,0.4}
+  \definecolor{blue}{rgb}{0.2,0.3,0.6}
+  \definecolor{teal}{rgb}{0.1,0.4,0.4}
+  \definecolor{green}{rgb}{0.1,0.7,0.2}
+  \definecolor{red}{rgb}{0.8,0.1,0.2}
+  \definecolor{pumpkin}{rgb}{0.9, 0.3, 0}
+
+%% Pour l'intégration de code SQL
+\usepackage{listings} 
+\usepackage{listingsutf8}
+\lstloadlanguages{JAVA, SQL}
+\lstset{ % affichage du code par défaut
+    inputencoding=utf8/latin1,
+    basicstyle=\footnotesize\sf,
+    morecomment=[s]{/*}{*/},
+    morecomment=[l]{//}, 
+    keywordstyle=\sffamily\bfseries\color{teal},
+    commentstyle=\itshape\color{grey},
+    stringstyle=\rmfamily\color{pumpkin},
+    tabsize=2, frame=single, breaklines=true,
+    showspaces=false, showstringspaces=false,extendedchars=true, 
+    numbers=left, numberstyle=\tiny,
+    extendedchars=true,
+    literate={\$}{{{\$}}}1 {é}{{\'e}}1,    
+}
+
+%% definition de style pour une ligne entiere d'un tableau
+\newcolumntype{+}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+#1\ignorespaces
+}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=2cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
+
+%% Pour ecrire des algorithmes
+\usepackage[vlined,ruled,linesnumbered]{algorithm2e}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+
+\usepackage[colorinlistoftodos]{todonotes}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]{\flushleft\Huge\itshape}{\quad}{0.5em}{}[]
+\titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{}{0pt}{}
+
+% leaves out chapter numbers in section numbering
+\renewcommand*\thesection{\arabic{section}}
+
+% command defining new chapter type, to be used whith roman page numbering
+\newcommand\romanchapter[1]{
+  \chapter*{#1}
+  \markboth{\MakeUppercase{#1}}{}
+  \addcontentsline{toc}{chapter}{#1}
+}
+
+\usepackage{fancyhdr}
+\setlength{\headheight}{15.2pt}
+\pagestyle{fancy}
+\rhead{} % empty right header
+
+\begin{document}
+
+\input{Paratextes/title.tex}
+
+%%%%% PAGE DE GARDE %%%%%
+\pagenumbering{Roman}
+
+\setcounter{tocdepth}{1} % profondeur du sommaire, 1 pour sections uniquement
+
+%%%%% SOMMAIRE %%%%%%
+\tableofcontents
+\clearpage
+
+%%%%% INTRODUCTION %%%%%
+\chapter{Introduction}
+\input{Paratextes/introduction.tex}
+
+\stepcounter{page}
+\pagenumbering{arabic}
+
+%%%%% CHAPTER "FIRST CHAPTER" %%%%%
+\chapter{First chapter}
+\label{chap:firstChap}
+	
+\section{First section}
+\label{sec:firstScetion}
+%\input{OutilsInformatiques/firstSec.tex}	
+	
+%%%%% CONCLUSION %%%%%
+\clearpage
+\chapter{Conclusion}
+\input{Paratextes/conclusion.tex}
+
+\stepcounter{page}
+\pagenumbering{Roman}
+
+%%%%% BIBLIOGRAPHIE %%%%%
+\printbibliography
+\addcontentsline{toc}{chapter}{Bibliographie}
+
+%%%%% TABLE DES FIGURES %%%%%
+\listoffigures
+\addcontentsline{toc}{chapter}{Table des figures}
+
+%%%%% GLOSSAIRE %%%%%
+\printglossary[title={Glossaire}, toctitle={Glossaire}]
+
+%%%%% ANNEXES %%%%%
+\lhead{} % remove the left part of the header (section name)
+\rhead{\textit{ANNEXES}} % set right header
+\appendix
+\romanchapter{Annexes}
+\input{Annexes/mainAnnexe.tex}
+
+\end{document}
