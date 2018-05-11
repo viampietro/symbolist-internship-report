@@ -109,6 +109,8 @@
     literate={\$}{{{\$}}}1 {é}{{\'e}}1,    
 }
 
+\AtBeginDocument{\counterwithout{lstlisting}{chapter}}
+
 %% definition de style pour une ligne entiere d'un tableau
 \newcolumntype{+}{>{\global\let\currentrowstyle\relax}}
 \newcolumntype{^}{>{\currentrowstyle}}
@@ -170,13 +172,27 @@
 \stepcounter{page}
 \pagenumbering{arabic}
 
-%%%%% CHAPTER "FIRST CHAPTER" %%%%%
-\chapter{First chapter}
-\label{chap:firstChap}
+%%%%% CHAPTER "PRESENTATION DU PROJET SYMBOLIST" %%%%%
+\chapter{Présentation du projet symbolist}
+\label{chap:presentationSymbolist}
+\todo[inline]{introduction pour le chapitre}
 	
-\section{First section}
-\label{sec:firstScetion}
-%\input{OutilsInformatiques/firstSec.tex}	
+\section{Genèse et objectifs du projet symbolist}
+\label{sec:geneseSymbolist}
+\input{PresentationDeSymbolist/geneseSymbolist.tex}	
+
+\section{Analyse de l'existant}
+\label{sec:analyseSymbolist}
+\input{PresentationDeSymbolist/analyseSymbolist.tex}
+
+%%%%% CHAPTER "DEVELOPPEMENT DE SYMBOLIST" %%%%%
+\chapter{Développement de symbolist}
+\label{chap:devSymbolist}
+\todo[inline]{introduction pour le chapitre}
+
+\section{Restructuration de l'application symbolist}
+\label{sec:restructurationSymbolist}
+
 	
 %%%%% CONCLUSION %%%%%
 \clearpage
