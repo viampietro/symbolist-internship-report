@@ -10,21 +10,42 @@
 	\medskip
 	\small
 	\it
-	Source citation and descriptive text.
+	Source quotation and descriptive text.
 \end{figure}
 \clearpage
 
 % Appendix declaration with a 90° rotated figure
 \rotatebox{90}{
-\begin{minipage}{0.95\textheight}
-	\section{Appendix with rotated figure}
-	\label{sec:appendixWithRotatedFig}
-	% \includegraphics[keepaspectratio=true, width=\textwidth]{Annexes/i/exempleAlirezaFarhang.png}
-	\captionof{figure}{Caption of Appendix with rotated figure}
-	\label{fig:appendixWithRotatedFigure}	
-	\medskip
-	\small
-	\it
-	Source citation and descriptive text.
-\end{minipage}}
+	\begin{minipage}{0.95\textheight}
+		\section{Modèle de l'application symbolist}
+		\label{sec:symbolistModelClassDiagram}
+		\includegraphics[keepaspectratio=true, width=\textwidth]{Annexes/i/symbolistModelClassDiagram.png}
+		\captionof{figure}{Diagramme de classes pour le modèle de l'application symbolist}
+		\label{fig:symbolistModelClassDiagram}	
+		\medskip
+		\small
+		\it
+		En \textcolor{red}{rouge}, la classe \emph{OdotBundle}, qui encapsule la structure d'un bundle \emph{OSC}, et la classe \emph{Symbol} dont les instances représentent les symboles de la partition. Chaque symbole de la partition possède une structure de bundle OSC, d'où la relation d'héritage entre la classe \emph{OdotBundle} et \emph{Symbol}.
+		En \textcolor{blue}{bleu}, la classe \emph{Palette}, regroupant les symboles pouvant être dessinés sur la partition, qu'ils aient été définis par l'utilisateur ou existaient par défaut dans l'application.
+		En \textcolor{green}{vert}, les classes \emph{Score} et \emph{SortedStaves} décrivant les symboles présent dans la partition.
+		En \textcolor{yellow}{jaune}, les classes \emph{SymbolTimePoint} et \emph{TimePointArray} définissant la logique d'ordonnancement temporel des symboles associés à un \emph{staff}.  
+	\end{minipage}
+}
+\clearpage
+
+\rotatebox{90}{
+	\begin{minipage}{0.85\textheight}
+		\section{Architecture finale de l'application symbolist}
+		\label{sec:symbolistFinalStructure}
+		\includegraphics[keepaspectratio=true, width=\textwidth]{Annexes/i/symbolistFinalStructure.png}
+		\captionof{figure}{Diagramme de classes présentant l'architecture de l'application symbolist après restructuration}
+		\label{fig:symbolistFinalStructure}	
+		\medskip
+		\small
+		\it
+		En \textcolor{red}{rouge}, .
+		En \textcolor{blue}{bleu}, .
+		En \textcolor{green}{vert}, .  
+	\end{minipage}
+}
 \clearpage
