@@ -58,4 +58,47 @@ L'encapsulation des classes \textit{Score} et \textit{Palette} dans \textit{Symb
 
 Ensuite, un contrôleur a été créé et couplé avec chacune des sous-vues de l'application afin de gérer plus localement les interactions avec l'utilisateur.  
 Une fois la structure globale de l'application établie, le travail a consisté à s'assurer que les éléments de l'architecture MVC se comportent correctement, depuis la captation d'une action utilisateur jusqu'à sa répercussion sur l'interface graphique de \textit{symbolist}.
-Pour plus d'informations sur la structure finale du programme, le diagramme de classes décrivant la nouvelle architecture de l'application \textit{symbolist} est présentée en annexe \ref{sec:symbolistFinalStructure}, page~\pageref{sec:symbolistFinalStructure}. 
+Pour plus d'informations sur la structure finale du programme, le diagramme de classes décrivant la nouvelle architecture de l'application \textit{symbolist} est présentée en annexe \ref{sec:symbolistFinalStructure}, page~\pageref{sec:symbolistFinalStructure}.
+
+\subsection{Restructuration de la hiérarchie des composants graphiques}
+\label{susec:graphicComponentRestruct}
+Une des volontés de \textit{symbolist} est de conserver l'information descriptive des symboles de la partition dans le canevas d'un bundle OSC. De fait, le modèle de l'application \textit{symbolist} ne possède qu'une seule classe \textit{Symbol} pour décrire les éléments d'une partition.
+La structure hiérarchique (encapsulation de symboles dans d'autres symboles) qui peut être celle d'une partition \textit{symbolist} se trouve cachée dans les bundles OSC du modèle.
+Aussi, ce sont aux classes représentant graphiquement les symboles de refléter cette structure.
+De même, si les symboles du modèle participent d'une seule et même classe \textit{Symbol}, il possède cependant un attribut \textit{type} qui va orienté le contenu des messages OSC composant le bundle les décrivant.
+Par exemple, un symbole de type \textit{circle} possédera l'attribut \textit{radius} dans son bundle, alors qu'un symbole de type \textit{rectangle} possèdera un attribut \textit{width} et \textit{height}.
+Au même titre que chaque type de symbole oriente la construction du bundle sous-jacent, les classes à composants graphiques décrivant la partition \textit{symbolist} doivent être spécialisées pour refléter chacun des types de symboles.
+Au début de ce stage, la hiérarchie des composants graphiques est déjà établie. La figure \ref{fig:graphicCompBefore} présente la diagramme de classes, avant restructuration, des composants décrivant une partition \textit{symbolist}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[keepaspectratio=true, width=0.8\textwidth]{DeveloppementDeSymbolist/i/graphicCompBefore.png}
+	\caption{Diagramme de classes des composants graphiques d'une partition symbolist avant restructuration}
+	\label{fig:graphicCompBefore}
+	\small
+	\it
+	La classe \emph{SymbolistComponent} est la classe mère de tous les composants graphiques de l'application \emph{symbolist}. Elle contient des méthodes de récupération de référence vers les vues principales, comme \emph{SymbolistMainComponent}, et vers la classe \emph{SymbolistHandler}.
+	La classe \emph{ScoreComponent} est la classe mère de tous les composants graphiques appartenant à une partition \emph{symbolist}.
+	La classe \emph{PageComponent} correspond à la vue de la partition, elle est associée à un \emph{PageController}.
+	La classe \emph{BaseComponent} et ses sous-classes décrivent plus précisément chaque type de symbole graphique de la partition, qu'ils soient dessinés par tracé (\emph{PathBaseComponent}), qu'ils représentent du texte (\emph{TextGlphComponent}) ou qu'ils soient une composition de symboles
+	(SymbolGroupComponent).
+\end{figure}
+
+La construction des classes comme présentéee en figure \ref{fig:graphicCompBefore} souffrent de quelques faiblesses structurelles. Par exemple, le design pattern \textit{Composite}, qui serait prescrit pour représenter la hiérarchie des composants graphiques, n'est que partiellement appliqué.
+La classe \textit{PageComponent}, qui représente la partition et qui est donc un ultime groupe de symboles, n'est pas regroupée avec la classe \textit{SymbolGroupComponent} sous une même égide d'éléments composites.
+De plus, la classe \textit{BaseComponent}, dont héritent tous les composants graphiques présents dans la partition, ne suffit pas à clairement différencier les éléments composites des éléments simples.
+
+La structure globale des composants graphiques a été remaniée en conséquence. Le résultat du remaniement est présenté par le diagramme de classes de la figure \ref{fig:graphicCompAfter}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[keepaspectratio=true, width=0.8\textwidth]{DeveloppementDeSymbolist/i/graphicCompAfter.png}
+	\caption{Diagramme de classes des composants graphiques d'une partition symbolist après restructuration}
+	\label{fig:graphicCompAfter}
+	\small
+	\it
+\end{figure}
+
+Deux nouvelles classes ont donc été crées pour appliquer pleinement le pattern \textit{Composite}: \textit{SimpleComponent} et \textit{CompositeComponent}\footnote{\textit{SymbolGroupComponent} aurait pu généraliser le concept d'élément composite, cependant cette classe étant concrète, une nouvelle classe abstraite \textit{CompositeComponent} a été créée.}. La classe \textit{PageComponent} a été déplacée pour hériter de la classe \textit{CompositeComponent}.
+De même, les relations \textit{subcomponents}, \textit{symbolsOnStaff} et \textit{selectedComponents}, permettant la composition et la sélection de symboles dans les éléments composites ont migrés à leur juste place entre la classe \textit{CompositeComponent} et \textit{ScoreComponent}.
+
