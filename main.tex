@@ -1,7 +1,5 @@
 \documentclass[a4paper, oneside]{book}
 
-\RequirePackage{etex}
-
 %% Language and font encodings
 \usepackage[frenchb]{babel}
 
@@ -174,27 +172,31 @@
 \stepcounter{page}
 \pagenumbering{arabic}
 
-%%%%% CHAPTER "PRESENTATION DU PROJET SYMBOLIST" %%%%%
-\chapter{Présentation du projet symbolist}
-\label{chap:presentationSymbolist}
+%%%%% CHAPTER "STRUCTURE DE LA RECHERCHE AUTOUR DE LA NOTATION MUSICALE" %%%%%
+\chapter{Structure de la recherche autour de la notation musicale}
+\label{chap:rechercheNotationMusicale}
 \todo[inline]{introduction pour le chapitre}
-	
-\section{Genèse et objectifs du projet symbolist}
-\label{sec:geneseSymbolist}
-\input{PresentationDeSymbolist/geneseSymbolist.tex}	
 
-\section{Analyse de l'existant}
-\label{sec:analyseSymbolist}
-\input{PresentationDeSymbolist/analyseSymbolist.tex}
+\section{Quels besoins pour la notation de la musique contemporaine?}
+\label{sec:besoinsNotationMusique}
+% \input{SymbolistOutilDeRecherche/besoinsNotationMusique.tex}
 
-%%%%% CHAPTER "DEVELOPPEMENT DE SYMBOLIST" %%%%%
-\chapter{Développement de symbolist}
-\label{chap:devSymbolist}
+\section{symbolist, un outil de recherche pour la notation musicale et multimédia}
+\label{sec:presentationSymbolist}
+\input{SymbolistOutilDeRecherche/presentationSymbolist.tex}	
+
+%%%%% CHAPTER "ARCHITECTURE LOGICIELLE DE SYMBOLIST" %%%%%
+\chapter{Architecture logicielle de symbolist}
+\label{chap:architectureSymbolist}
 \todo[inline]{introduction pour le chapitre}
+
+\section{Présentation de l'architecture première}
+\label{sec:architecturePremiere}
+\input{ArchitectureLogicielleSymbolist/architecturePremiereSymbolist.tex}
 
 \section{Restructuration de l'application symbolist}
 \label{sec:restructurationSymbolist}
-\input{DeveloppementDeSymbolist/restructurationSymbolist.tex}
+\input{ArchitectureLogicielleSymbolist/restructurationSymbolist.tex}
 	
 %%%%% CONCLUSION %%%%%
 \clearpage
