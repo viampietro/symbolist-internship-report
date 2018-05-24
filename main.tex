@@ -1,39 +1,25 @@
-\documentclass[a4paper, oneside]{book}
+%% La classe stageM2R s'appuie sur la classe memoir, plus d'information sur le paquet: http://www.ctan.org/pkg/memoir
+%% option possible de la classe stageM2R
+% utf8  -> encodage du texte UTF8 (défaut: Latin1)
+% final -> mode rapport de stage final (défaut: mode étude bibliographique)
+% private -> indique une soutenance privée (défaut: soutenance publique)
+%\documentclass[utf8]{stageM2R} %-> etude bibliographique
+\documentclass[utf8,final]{stageM2R} %-> rapport final
 
-%% Language and font encodings
-\usepackage[frenchb]{babel}
-
-\usepackage[utf8]{inputenc}
+% supresses the warning "OT1 encoding should not be used for french"
 \usepackage[T1]{fontenc}
-
-\usepackage{verbatim}
-\usepackage{enumitem}
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
-
-% creation de la commande circled, mot entoure d'un cercle
-\newcommand*\circled[1]{\tikz[baseline=(char.base)]{% <---- BEWARE
-            \node[shape=circle,draw,inner sep=2pt, color=pumpkin] (char) {#1};}}
-
-% Using \hfuzz allows \hbox to be overfull to the given amount before a warning is raised
-\hfuzz = 5pt
 
 % quotes package
 \usepackage[autostyle, maxlevel = 2]{csquotes}
 
+% glossary package
+\usepackage[toc, numberedsection=nameref]{glossaries}
+\loadglsentries{glossary.tex} % loading glossary file
+\makeglossaries
+
 % bibliography package            
 \usepackage[backend = biber, style = numeric]{biblatex}   
 \addbibresource{references.bib}            
-
-% glossary package
-\usepackage{nameref}
-\usepackage[toc, numberedsection=nameref]{glossaries}
-
-% loading glossary file
-\loadglsentries{Glossaire/glossaire.tex} 
-\makeglossaries
-
-% package for references and links 
-\usepackage{caption}
 
 % package for insertion of pdf pages
 \usepackage{pdfpages}
@@ -43,7 +29,6 @@
 \counterwithout{figure}{chapter}
 
 % pour les images
-\usepackage{graphicx}
 \usepackage{caption} 
 \usepackage{float} 
 \usepackage{wrapfig}
@@ -51,16 +36,11 @@
 %% pour les tableaux
 \usepackage{array}
 \usepackage{tabularx}
-\usepackage{multirow}
 \usepackage{slashbox}
-\usepackage{colortbl}
 \usepackage{framed}
 \usepackage{adjustbox}
 
 % pour les maths
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
 \usepackage{mathrsfs}  
 \usepackage{pifont}
 \newcommand{\cmark}{\ding{51}}
@@ -118,110 +98,97 @@
 #1\ignorespaces
 }
 
-%% Sets page size and margins
-\usepackage[a4paper,top=2cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
-
 %% Pour ecrire des algorithmes
 \usepackage[vlined,ruled,linesnumbered]{algorithm2e}
 
-%% Useful packages
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{example}{Example}
-
 \usepackage[colorinlistoftodos]{todonotes}
 
-\usepackage{titlesec}
-\titleformat{\chapter}[display]{\flushleft\Huge\itshape}{\quad}{0.5em}{}[]
-\titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{}{0pt}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Déclaration du stage %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% leaves out chapter numbers in section numbering
-\renewcommand*\thesection{\arabic{section}}
-
-% command defining new chapter type, to be used whith roman page numbering
-\newcommand\romanchapter[1]{
-  \chapter*{#1}
-  \markboth{\MakeUppercase{#1}}{}
-  \addcontentsline{toc}{chapter}{#1}
+%% auteur
+\author{Prénom Nom}
+%% encadrants
+\supervisors{Prénom1 Nom1\\Prénom2 Nom2}
+%% lieu du stage (Optionnel)
+\location{LIRMM UM5506 - CNRS, Université de Montpellier}
+%% titre du stage
+\title{Intitulé du stage} 
+%% parcours du master
+\track{monparcours}  
+%% date de soutenance (Optionnel)
+\date{\today} 
+%% version du rapport (Optionnel)
+\version{1}
+%% Résumé en francais
+\abstractfr{
+Ce stage de master.
+}
+%% Résumé en anglais
+\abstracteng{
+  This master thesis.
 }
 
-\usepackage{fancyhdr}
-\setlength{\headheight}{15.2pt}
-\pagestyle{fancy}
-\rhead{} % empty right header
+\begin{document}   
+%\selectlanguage{english} %% --> turn the document into english mode (Default is french)
+\selectlanguage{french} 
+\frontmatter  %% -> pas de numérotation numérique
+\maketitle    %% -> création de la page de garde et des résumés
+\cleardoublepage   
+\tableofcontents %% -> table des matières
+\mainmatter  %% -> numérotation numérique
 
-\begin{document}
-
-\input{Paratextes/title.tex}
-
-%%%%% PAGE DE GARDE %%%%%
-\pagenumbering{Roman}
-
-\setcounter{tocdepth}{1} % profondeur du sommaire, 1 pour sections uniquement
-
-%%%%% SOMMAIRE %%%%%%
-\tableofcontents
-\clearpage
-
-%%%%% INTRODUCTION %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%    DEBUT DU RAPPORT  %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introduction}
 \input{Paratextes/introduction.tex}
-
-\stepcounter{page}
-\pagenumbering{arabic}
 
 %%%%% CHAPTER "STRUCTURE DE LA RECHERCHE AUTOUR DE LA NOTATION MUSICALE" %%%%%
 \chapter{Structure de la recherche autour de la notation musicale}
 \label{chap:rechercheNotationMusicale}
 \todo[inline]{introduction pour le chapitre}
 
-\section{Quels besoins pour la notation de la musique contemporaine?}
-\label{sec:besoinsNotationMusique}
-% \input{SymbolistOutilDeRecherche/besoinsNotationMusique.tex}
+	\section{Quels besoins pour la notation de la musique contemporaine?}
+	\label{sec:besoinsNotationMusique}
+	\input{SymbolistOutilDeRecherche/besoinsNotationMusique.tex}
 
-\section{symbolist, un outil de recherche pour la notation musicale et multimédia}
-\label{sec:presentationSymbolist}
-\input{SymbolistOutilDeRecherche/presentationSymbolist.tex}	
+	\section{symbolist, un outil de recherche pour la notation musicale et multimédia}
+	\label{sec:presentationSymbolist}
+	\input{SymbolistOutilDeRecherche/presentationSymbolist.tex}	
 
 %%%%% CHAPTER "ARCHITECTURE LOGICIELLE DE SYMBOLIST" %%%%%
 \chapter{Architecture logicielle de symbolist}
 \label{chap:architectureSymbolist}
 \todo[inline]{introduction pour le chapitre}
 
-\section{Présentation de l'architecture première}
-\label{sec:architecturePremiere}
-\input{ArchitectureLogicielleSymbolist/architecturePremiereSymbolist.tex}
+	\section{Présentation de l'architecture première}
+	\label{sec:architecturePremiere}
+	\input{ArchitectureLogicielleSymbolist/architecturePremiereSymbolist.tex}
 
-\section{Restructuration de l'application symbolist}
-\label{sec:restructurationSymbolist}
-\input{ArchitectureLogicielleSymbolist/restructurationSymbolist.tex}
+	\section{Restructuration de l'application symbolist}
+	\label{sec:restructurationSymbolist}
+	\input{ArchitectureLogicielleSymbolist/restructurationSymbolist.tex}
 	
 %%%%% CONCLUSION %%%%%
 \clearpage
 \chapter{Conclusion}
 \input{Paratextes/conclusion.tex}
 
-\stepcounter{page}
-\pagenumbering{Roman}
-
 %%%%% BIBLIOGRAPHIE %%%%%
 \printbibliography
-\addcontentsline{toc}{chapter}{Bibliographie}
 
 %%%%% TABLE DES FIGURES %%%%%
 \listoffigures
-\addcontentsline{toc}{chapter}{Table des figures}
 
 %%%%% GLOSSAIRE %%%%%
-\printglossary[title={Glossaire}, toctitle={Glossaire}]
+\printglossary
 
 %%%%% ANNEXES %%%%%
-\lhead{} % remove the left part of the header (section name)
-\rhead{\textit{ANNEXES}} % set right header
 \appendix
-\romanchapter{Annexes}
+\chapter{Annexes}
 \input{Annexes/mainAnnexe.tex}
 
 \end{document}
+     
