@@ -143,21 +143,25 @@ Ce stage de master.
 %%%%    DEBUT DU RAPPORT  %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introduction}
-\input{Paratextes/introduction.tex}
+\input{Introduction/introduction.tex}
 
-%%%%% CHAPTER "STRUCTURE DE LA RECHERCHE AUTOUR DE LA NOTATION MUSICALE" %%%%%
-\chapter{Structure de la recherche autour de la notation musicale}
-\label{chap:rechercheNotationMusicale}
+	\section{Sur la notation de la musique contemporaine}
+	\label{sec:notationMusiqueContemporaine}
+	\input{Introduction/rappelEtudeBiblio.tex}
+
+%%%%% CHAPTER "LE PROJET SYMBOLIST" %%%%%
+\chapter[Le projet symbolist]{Le projet symbolist: outil de recherche pour la notation musicale et multimédia}
+\label{chap:projetSymbolist}
 \todo[inline]{introduction pour le chapitre}
 
-	\section{Quels besoins pour la notation de la musique contemporaine?}
-	\label{sec:besoinsNotationMusique}
-	\input{SymbolistOutilDeRecherche/besoinsNotationMusique.tex}
+	\section{Genèse et objectifs du projet symbolist}
+	\label{sec:geneseSymbolist}
+	\input{LeProjetSymbolist/geneseSymbolist.tex}	
 
-	\section{symbolist, un outil de recherche pour la notation musicale et multimédia}
-	\label{sec:presentationSymbolist}
-	\input{SymbolistOutilDeRecherche/presentationSymbolist.tex}	
-
+	\section{Analyse de l'existant}
+	\label{sec:analyseSymbolist}
+	\input{LeProjetSymbolist/analyseExistant.tex}
+	
 %%%%% CHAPTER "ARCHITECTURE LOGICIELLE DE SYMBOLIST" %%%%%
 \chapter{Architecture logicielle de symbolist}
 \label{chap:architectureSymbolist}
@@ -165,11 +169,11 @@ Ce stage de master.
 
 	\section{Présentation de l'architecture première}
 	\label{sec:architecturePremiere}
-	\input{ArchitectureLogicielleSymbolist/architecturePremiereSymbolist.tex}
+	\input{ArchitectureLogicielle/architecturePremiereSymbolist.tex}
 
 	\section{Restructuration de l'application symbolist}
 	\label{sec:restructurationSymbolist}
-	\input{ArchitectureLogicielleSymbolist/restructurationSymbolist.tex}
+	\input{ArchitectureLogicielle/restructurationSymbolist.tex}
 	
 %%%%% CONCLUSION %%%%%
 \clearpage

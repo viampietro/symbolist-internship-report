@@ -1,0 +1,33 @@
+En qualité de compositeur, Rama Gottfried a été confronté à des problèmes de notation qui ont conduit à l'élaboration du projet \textit{symbolist} de paire avec Jean Bresson.
+Rama Gottfried a longtemps utilisé le logiciel \textit{Sibelius}\footnote{\url{https://www.avid.com/fr/sibelius}} pour écrire ses pièces musicales et multimédias. Cependant, la trop grande limitation du logiciel quant à l'écriture d'œuvres contemporaines lui a fait abandonner son utilisation. 
+Rama Gottfried opère alors un retour à l'usage du papier pour composer, le support offrant une liberté bien plus importante. Cependant, la numérisation des partitions \og papier \fg engendre une quantité relativement importante de données, représentant un inconvénient certain pour le partage des documents.
+En conséquence, Rama Gottfried se tourne vers le logiciel \textit{Adobe Illustrator} pour ses qualités d'application de dessin vectoriel\footnote{\url{https://www.adobe.com/fr/products/illustrator.html}}. \textit{Illustrator} permet au compositeur d'entretenir la relation qu'il avait avec le support papier. L'interface de l'application s'abstrait du cadre de la portée et permet un mode d'expression graphique plus direct. De plus, le plugin \textit{scriptographer} d'\textit{Illustrator} permet à R.Gottfried de créer ses propres outils de dessin \cite{scriptographer2018}. Plus spécifiquement, \textit{scriptographer} permet d'agrémenter la palette d'outils \textit{Illustrator}; un outil est défini par un ensemble de scripts Javascript, qui seront lancés en réponse à des évènements \og souris \fg. Les scripts génèrent des éléments graphiques dans le canevas \textit{Illustrator}. Malheureusement, le plugin \textit{scriptographer} pour \textit{Illustrator} n'est aujourd'hui plus supporté par son équipe de développement. C'est à ce moment là que Rama Gottfried et Jean Bresson ont initié le projet \textit{symbolist}.
+
+\paragraph{Objectifs du projet} \textit{symbolist} propose un environnement pour la notation graphique de pièces musicales et multimédias \cite{gottfried2018}. Bien sûr, les logiciels \textit{wysiwyg} comme \textit{Sibelius} ou \textit{Finale} proposent déjà de noter graphiquement la musique, en utilisant la notation traditionnelle occidentale. C'est sur ce point que ces programmes diffèrent.
+Le premier objectif de \textit{symbolist} est de se rapprocher de la composition sur feuille blanche, aussi le compositeur ne se voit imposer aucun système de notation. L'utilisation de la \gls{portee} n'est, par exemple, plus obligatoire.
+L'impossibilité de standardiser la notation des œuvres contemporaines a fait privilégier aux créateurs de \textit{symbolist} l'aspect de libre création graphique plutôt que d'imposition d'un canevas notationnel.
+Aussi, \textit{symbolist} propose des outils de dessins standards (lignes, formes géométriques...) pour la création de symboles, et permet à l'utilisateur de stocker les symboles créés dans une palette pour réutilisation.
+Même si l'interface graphique se détache de la portée, l'idée d'ordonnancer temporellement les symboles créés est conservée. En effet, dans \textit{symbolist}, chaque symbole peut être associé à un symbole de type \textit{staff} (une voix de la portée, en anglais) qui fait office de référence temporelle. Ainsi, les symboles associés à un \textit{staff} se voient attribuer un marqueur de temps selon leur position sur l'axe horizontal. Dans une partition \textit{symbolist}, il est admis que l'axe horizontal représente le temps, même si un symbole n'est marqué temporellement qu'après avoir été associé à un \textit{staff}. En revanche, et contrairement à la portée, l'axe vertical ne représente pas systématiquement la hauteur des sons. Un symbole placé au-dessus d'un autre ne doit pas être interprété comme produisant un son plus aigu. La sémantique de l'axe vertical est laissé à la discrétion du compositeur.
+
+Un autre objectif de \textit{symbolist} est de tirer des symboles graphiques une information interprétable par la machine, qui permettrait de contrôler les paramètres d'une pièce musicale ou multimédia. Inversement, \textit{symbolist} peut être vu comme un transcripteur symbolique des variations des paramètres d'une pièce, recevant de l'information depuis des processus extérieurs et transformant cette information en symboles dans la partition.   
+Pour ce faire, et en s'inspirant du format SVG qui décrit des formes graphiques en syntaxe XML \cite{svg2011}, chaque symbole d'une partition \textit{symbolist} est définit par un bundle OSC \cite{wright2002}. Comme présenté dans l'étude bibliographique, un bundle OSC est un ensemble de messages OSC, couples clé-valeur où la clé est exprimée sous forme d'url.
+Le listing \ref{lst:bundleOSCMin} présente le bundle OSC minimal décrivant les informations partagées par l'ensemble des symboles d'une partition.
+
+\begin{lstlisting}[language=java, 
+				   caption={Messages OSC \'{e}l\'{e}mentaires pour les symboles d'une partition \textit{symbolist}}, 
+				   label={lst:bundleOSCMin}, 
+				   captionpos={b}, 
+				   numbers=none]
+/type  "circle"
+/name  "myCircle"
+/id    "circle/1"
+/staff "staff/0"
+/w     30
+/h     30
+/x     150
+/y     160 
+\end{lstlisting}
+
+Le bundle OSC présenté dans le listing \ref{lst:bundleOSCMin} décrit un cercle nommé \textit{myCircle}, dont l'identifiant est \textit{circle/1}. Le cercle est attaché à un \textit{staff} (référent temporel) dont l'identifiant est \textit{staff/0}. Graphiquement, la figure est définie dans un boîte de largeur 30 pixels et de hauteur 30 pixels. Le centre de la boîte est situé aux coordonnées $(150, 160)$.
+L'avantage de décrire les symboles sous forme de bundle OSC réside dans le caractère standard du protocole, permettant de fait l'envoi/réception de données structurées à/depuis un autre programme. Les possibilités d'interfaçage du logiciel \textit{symbolist} s'en voient décuplées.
+Dans une optique d'interaction avec d'autres programmes, l'application a pour finalité d'être déployer en tant qu'objet \textit{Max} \cite{puckette1991} et \textit{OpenMusic} \cite{agon1998}, deux langages de programmation visuelle pour l'informatique musicale.
