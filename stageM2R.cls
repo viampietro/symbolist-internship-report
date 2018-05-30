@@ -181,8 +181,8 @@
 \selectlanguage{french} 
 
 % \chapterstyle{veelo}
-% \chapterstyle{chappell}
-\chapterstyle{ell}
+\chapterstyle{chappell}
+% \chapterstyle{ell}
 % \chapterstyle{ger}
 % \chapterstyle{pedersen}
 % \chapterstyle{verville}
