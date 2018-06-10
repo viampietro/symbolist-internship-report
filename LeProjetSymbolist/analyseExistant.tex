@@ -1,6 +1,6 @@
 Au début de ce stage, le logiciel \textit{symbolist} en est déjà à un état de développement avancé. Cette section détaille l'état de l'application d'un point de vue fonctionnel, technologique et architectural, tel qu'il se trouvait au début de la période de formation.
 
-Au commencement du stage, l'interface graphique de \textit{symbolist} offre déjà les fonctionnalités basiques de dessin sur l'espace de la partition. Les différentes vues composants l'éditeur graphique de \textit{symbolist} sont présentées en figure \ref{fig:symbolistUIBefore}.
+\paragraph{Interface graphique} Au commencement du stage, l'interface graphique de \textit{symbolist} offre déjà les fonctionnalités basiques de dessin sur l'espace de la partition. Les différentes vues composants l'éditeur graphique de \textit{symbolist} sont présentées en figure \ref{fig:symbolistUIBefore}.
 
 \begin{figure}[H]
 	\centering
@@ -12,11 +12,11 @@ Au commencement du stage, l'interface graphique de \textit{symbolist} offre déj
 	En \textcolor{green}{vert}, la palette des symboles disponibles et dessinables sur la partition. En \textcolor{red}{rouge}, la partition, ou l'espace de composition et d'édition des symboles. En \textcolor{blue}{bleu}, l'inspecteur de symboles, qui présente le bundle OSC associé au symbole graphique couramment sélectionné (symbole surligné en bleu dans la partition).
 \end{figure}
 
-L'éditeur graphique de \textit{symbolist} permet à l'utilisateur de dessiner directement sur la partition à l'aide de la souris, dans une modèle d'interaction \textit{wysiwyg} (\textit{what you see is what you get}). Dans \textit{symbolist}, la partition fait référence à l'espace graphique où les symboles sont placés et édités par l'utilisateur. De manière sous-jacente, la partition est stockée comme une liste de symboles. Les symboles de la partition qui sont attachés à un référent temporel, un \textit{staff}, se voient attribuer une valeur temporelle de départ et de fin correspondant à leur point de départ et de fin sur l'axe horizontal. Ces symboles sont ordonnancés temporellement dans la liste reflétant la partition.
+L'éditeur graphique de \textit{symbolist} permet à l'utilisateur de dessiner directement sur la partition à l'aide de la souris, dans une modèle d'interaction \textit{wysiwyg} (\textit{what you see is what you get}). Dans \textit{symbolist}, la partition fait référence à l'espace graphique où les symboles sont placés et édités par l'utilisateur. 
 
-\pagebreak
+\paragraph{Concept de staff} De manière sous-jacente, la partition est stockée comme une liste de symboles. Les symboles de la partition qui sont attachés à un référent temporel, un \textit{staff}, se voient attribuer une valeur temporelle de départ et de fin correspondant à leur point de départ et de fin sur l'axe horizontal. Ces symboles sont ordonnancés temporellement dans la liste reflétant la partition.
 
-De plus, l'éditeur graphique n'est pas le seul moyen d'interagir avec le logiciel \textit{symbolist}. En effet, \textit{symbolist} est également déployer dans une version \textit{objet} pour l'environnement \textit{Max} et l'environnement \textit{OpenMusic}. Dans ces environnements, l'application \textit{symbolist} est représentée comme une boîte, recevant et envoyant des messages à d'autres objets. Les différents messages auxquels répond l'objet \textit{symbolist} dans l'environnement Max sont présentés en figure \ref{fig:symbolistMaxObject}.
+\paragraph{Environnements d'interactions} De plus, l'éditeur graphique n'est pas le seul moyen d'interagir avec le logiciel \textit{symbolist}. En effet, \textit{symbolist} est également déployer dans une version \textit{objet} pour l'environnement \textit{Max} et l'environnement \textit{OpenMusic}. Dans ces environnements, l'application \textit{symbolist} est représentée comme une boîte, recevant et envoyant des messages à d'autres objets. Les différents messages auxquels répond l'objet \textit{symbolist} dans l'environnement Max sont présentés en figure \ref{fig:symbolistMaxObject}.
 
 \begin{figure}[H]
 	\centering

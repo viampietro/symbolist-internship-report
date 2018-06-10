@@ -20,7 +20,7 @@
 \ProcessOptions
 
 %% dependance à la classe memoir
-\LoadClass[a4paper,11pt,oldfontcommands]{memoir}
+\LoadClass[a4paper,11pt,oldfontcommands,oneside]{memoir}
 
 
 \settrimmedsize{297mm}{210mm}{*}
