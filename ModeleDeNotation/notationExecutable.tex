@@ -1,5 +1,25 @@
-Le co-encadrement du stage par Rama Gottfried, qui cumule le statut de chercheur et de compositeur multimédia, a permis une réelle interaction entre informaticien et compositeur aidant à la démarche d'amélioration du logiciel \textit{symbolist}, et à la constitution de nouvelles fonctionnalités. Au-delà du développement logiciel, la conception de fonctionnalités pour \textit{symbolist} a également conduit à une réflexion sur des thématiques de recherche liées à la notation musicale.
-Aussi, les aspects discutés ci-après formalise les enjeux scientifiques émergeant de la recherche de nouvelles fonctionnalités pour le logiciel \textit{symbolist}.
+La notion de notation musicale exécutable est intimement lié au format de partition numérique. Deux sens peuvent être prêtés au terme de notation musicale exécutable. 
+Premièrement, une partition est exécutable si elle peut contribuer à la production d'un résultat musical, ou sonore, lors de sa lecture par un ordinateur. Il existe alors une dépendance (\textit{mapping}) entre les paramètres graphiques de la partition et les paramètres de production du son. Cette dépendance permet aussi bien à une partition de piloter un synthétiseur que de transcrire graphiquement les variations dans le jeu musical de ce même synthétiseur.
+
+Deuxièmement, l'exécutabilité d'une notation peut également provenir des actions de modification de son propre contenu (modification graphique ou sur les données envoyées) lors de sa lecture temporelle. Par exemple, un  symbole placé sur une partition peut être un déclencheur d'évènement, qui à sa lecture entraîne la modification de la partition (création, modification, suppression d'autres symboles…). Cette logique de fonctionnement est celle utilisée par INScore pour la création de partitions \textit{interactives} \cite{fober2017}.
+Aussi, cette idée d'encapsulation d'intelligence programmationnelle dans un symbole est atteinte dans \textit{symbolist} grâce à l'utilisation de la librairie \textit{odot} et son système d'expressions \cite{maccallum2011}.
+
+\subsection{La librairie odot}
+\label{subsec:odotLibrary}
+La librairie \textit{odot}, devéloppé au laboratoire CNMAT de l'Université de Berkeley, offre une implémentation en langage C du format OSC. L'implémentation du format OSC par \textit{odot} a été encapsulé dans une hiérarchie de classes C++ afin de décrire la structure de données sous-jacente des symboles d'une partition \textit{symbolist}. Comme évoqué plus haut, \textit{odot} met à disposition un langage de programmation, appelé \textit{o.expr}, qui permet d'appliquer des expressions \og à la C \fg à des bundles OSC. \textit{o.expr} permet d'ajouter des messages à un bundle OSC ou de modifier la valeur d'un message préexistant. La figure \ref{fig:applyOdotExpr} donne un exemple de bundle OSC avant et après l'application d'une expression \textit{odot}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[keepaspectratio=true, width=\textwidth]{ModeleDeNotation/i/applyOdotExpr.png}
+	\caption{Application d'une expression odot à un bundle OSC}
+	\label{fig:applyOdotExpr}
+	\small
+	\textit{A gauche, le bundle OSC avant l'application de l'expression \emph{/perimeter = /diameter * pi()}. A droite, le bundle OSC résultant.}
+\end{figure}
+
+Le langage d'expressions \textit{odot} met à disposition de l'utilisateur un certain nombre de primitives: la plupart des fonctions définies dans la librairie \textit{math} du langage C, des fonctions pour la recherche et le listing d'adresses et de valeurs de messages OSC, mais aussi la possibilité de définir des lambda fonctions et des fonctions de mapping.
+
+Une des contributions de ce stage a été de rendre possible l'application d'expressions \textit{odot} à un symbole (qui est sous-jacemment un bundle OSC) dans une partition \textit{symbolist}. L'application d'une expression \textit{odot} à un symbole passe par l'inspecteur de l'interface \textit{symbolist}. Un exemple d'application d'une expression \textit{odot} à un symbole est présenté en figure .
 
 \subsection{La partition comme pilote des paramètres du son} 
 \label{subsec:partitionPiloteSon}
@@ -22,7 +42,7 @@ Une exemple simple peut être pris pour illustré le principe de connexion entre
 Dans la figure \ref{fig:linkingParameters}, le formalisme graphique utilisé pour exprimer la connexion entre les paramètres de sortie de la partition et les paramètres d'entrée du synthétiseur est celui défini par UML 2.5.1 pour modéliser les architectures de composants \cite{omg2017}. En effet, il est pratique de considérer la partition et le synthétiseur comme deux composants logiciels pour étudier la connexion de leurs paramètres. Ici, le cercle noir attaché à la partition modélise un paramètre de sortie (\textit{interface fournie}, le message OSC \texttt{/y}), et l'arc de cercle attaché au synthétiseur représente un paramètre d'entrée (\textit{interface requise}, le message OSC \texttt{/pitch}).
 Dans notre exemple, le synthétiseur a besoin de l'information \texttt{/pitch}, qui représente la hauteur du son à produire en Hertz, pour pouvoir fonctionner.
 De fait, connecter le paramètre \texttt{/pitch} du synthétiseur au message \texttt{/y} envoyé par la partition lie les deux valeurs selon l'expression: $/pitch = f(/y(t))$
-Soit, la hauteur du son produit par le synthétiseur est une fonction de la hauteur des cercles sur l'axe vertical évoluant en fil du temps. Cette connexion peut être effectuée de deux manières: 
+Soit, la hauteur du son produit par le synthétiseur est une fonction de la hauteur des cercles sur l'axe vertical évoluant au fil du temps. Cette connexion peut être effectuée de deux manières: 
 \begin{enumerate}[label={(\arabic*)}]
 	\item \textbf{Manuellement}: l'utilisateur devra alors connaître les paramètres d'entrée du synthétiseur et envoyé les messages correspondant en sortie lors de la lecture de la partition. Dans notre exemple, l'utilisateur devra explicitement créé un message \texttt{/pitch} pour chaque cercle de la partition et l'envoyer au synthétiseur.
 	\item \textbf{(Semi-)Automatiquement}: Un protocole de communication peut être mis en place pour la connexion de \textit{symbolist} et du synthétiseur; le protocole mettra en relation les messages exposés par la partition \textit{symbolist} et les messages pouvant être reçus par le synthétiseur. Aussi, l'utilisateur devra s'assurer que les paramètres sont correctement liés, d'où le caractère semi-automatique de cette procédure. 
@@ -46,23 +66,3 @@ L'utilisation de modules \textit{jamoma} assure une communication basée sur l'e
 
 La deuxième technologie digne d'intérêt est le protocole \textit{Minuit} qui décrit un système de requêtes entre processus utilisant le format OSC comme structure interne de données \cite{minuit2010}. \textit{Minuit} définit trois types de messages pouvant être envoyés: \texttt{get} permettant de lire la valeur d'un message OSC, \texttt{set} permettant d'écrire la valeur d'un message OSC, et \textit{listen} permettant de définir un écouteur sur une valeur de message OSC. Pour reprendre l'exemple cité plus haut, le protocole \textit{Minuit} permettrait à une partition \textit{symbolist} d'écrire ou de lire la valeur de l'attribut \textit{/pitch} du synthétiseur, ou bien permettrait au synthétiseur d'être tenu au courant de la valeur courante de \texttt{/y(t)}.
 
-\subsection{Le concept de clef}
-\label{subsec:conceptDeClef}
-
-Le concept de \textit{staff} (\gls{portee} en anglais) a été défini et implémenté dans \textit{symbolist}, précédemment au début du stage (voir section \todo{Parler plus précisément du concept de staff et ajouter un ref ici}).
-Le staff est une manière d'ordonner horizontalement les symboles d'une partition \textit{symbolist} en considérant l'axe horizontal de la fenêtre graphique comme un axe temporel (dont l'extrémité gauche correspond à $t = 0$). Le staff est aussi une manière de regrouper les symboles sans pour autant enlever leur caractère individuel à chaque symbole du groupe (contrairement à la composition d'un nouveau symbole par groupement).
-De fait, après avoir défini la sémantique du placement des symboles sur l'axe horizontal, la recherche de nouvelles fonctionnalités pour \textit{symbolist} a conduit à une réflexion sur la définition de la sémantique de l'axe vertical.
-La CWMN (Common Western Music Notation) possède le concept de \textit{clef}, qui est un symbole placé au début d'une portée, associant à chaque ligne de la portée un nom de note.
-Aussi, les notes portent le nom de la ligne sur laquelle elles se trouvent.
-La figure montre un exemple de changement de clef sur une même portée qui a pour conséquence de changer le nom des notes placées à la suite.
-\begin{figure}[H]
-	\centering
-	\includegraphics[keepaspectratio=true, width=0.6\textwidth]{StructurationRecherche/i/clefsCWMN.png}
-	\caption{Conséquence du changement de clefs sur le nom des notes}
-	\label{fig:clefsCWMN}
-	\small
-	\textit{A gauche, le symbole de la clef de sol suivi d'une note placée sur la deuxième ligne de la portée. A droite, le symbole de la clef de fa suivi d'une note placée sur la deuxième de la portée.}
-\end{figure}
-Si une clef de sol est inscrite sur la portée alors toutes les notes se trouvant à la suite sur la deuxième ligne de la portée auront pour nom \textit{sol}. Si une clef de fa est inscrite sur la portée alors toutes les notes se trouvant à la suite sur la deuxième ligne de la portée auront pour nom \textit{si}.
-
-En s'inspirant de la CWMN, le concept de clef a été défini pour l'application \textit{symbolist}, bien qu'il ne soit pas à ce jour implémenté. 

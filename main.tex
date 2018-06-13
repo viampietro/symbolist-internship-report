@@ -55,6 +55,15 @@
 \usepackage{tkz-graph}
 \usetikzlibrary{calc, decorations.pathreplacing}
 
+\newcommand\tikzmark[1]{%
+  \tikz[remember picture,overlay]\node (#1) {};%
+}
+
+\newcommand\Connect[3][]{%
+\tikz[remember picture,overlay]
+  \draw[->,red,>=latex,#1] (#2.north east) -- ( $ (#3.north west) + (-20pt,0) $ );%
+}
+
 % Pgfplots
 \usepackage{pgfplotstable}
 \usepackage{pgfplots}
@@ -145,7 +154,7 @@ Ce stage de master.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introduction}
 \input{Introduction/introduction.tex}
-
+	\todo[inline]{Avant les rappels de l'étude bibliographique, faire une réelle introduction en explicitant l'aspect recherche en informatique musicale du stage}
 	\section{Sur la notation de la musique contemporaine}
 	\label{sec:notationMusiqueContemporaine}
 	\input{Introduction/rappelEtudeBiblio.tex}
@@ -175,19 +184,19 @@ Ce stage de master.
 	\section{Restructuration de l'application symbolist}
 	\label{sec:restructurationSymbolist}
 	\input{ArchitectureLogicielle/restructurationSymbolist.tex}
-	
-%%%%% CHAPTER "STRUCTURATION DE LA RECHERCHE" %%%%%
-\chapter{Structuration de la recherche}
-\label{chap:structurationRecherche}
-\todo[inline]{introduction pour le chapitre}
 
-	\section{Analyse des besoins}
-	\label{sec:analyseBesoins}
-	\input{StructurationRecherche/analyseBesoins.tex}
+%%%%% CHAPTER "VERS UN MODELE ABSTRAIT ET EXECUTABLE POUR LA NOTATION MUSICALE" %%%%%
+\chapter{Vers un modèle abstrait et exécutable pour la notation musicale}
+\label{chap:modeleDeNotation}
 	
-	\section{Formalisation de nouvelles fonctionnalités}
-	\label{sec:formalisationNouvellesFonc}
-	\input{StructurationRecherche/formalisationNouvellesFonc.tex}
+	\todo[inline]{Intro, présentation de la contribution à symbolist dans une optique de renouvellement du modèle de notation}
+	\section{Abstraction des concepts de la notation traditionnelle}
+	\label{sec:abstractionConcepts}
+	\input{ModeleDeNotation/abstractionConcepts.tex}
+
+	\section{Notation exécutable}
+	\label{sec:notationExecutable}
+	\input{ModeleDeNotation/notationExecutable.tex}
 	
 %%%%% CONCLUSION %%%%%
 \clearpage
