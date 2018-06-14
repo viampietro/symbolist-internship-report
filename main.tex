@@ -112,6 +112,9 @@
 
 \usepackage[colorinlistoftodos]{todonotes}
 
+%% frame with settable background color
+\usepackage[framemethod=tikz]{mdframed}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Déclaration du stage %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -162,9 +165,10 @@ Ce stage de master.
 %%%%% CHAPTER "LE PROJET SYMBOLIST" %%%%%
 \chapter[Le projet symbolist]{Le projet symbolist: outil de recherche pour la notation musicale et multimédia}
 \label{chap:projetSymbolist}
-\todo[inline]{introduction pour le chapitre}
+Durant ce stage, l'étude et la contribution à la recherche en informatique musicale ont eu pour cadre le logiciel \textit{symbolist}, un outil de notation graphique pour la musique contemporaine et la composition multimédia. Ce chapitre donne une vision générale de l'application \textit{symbolist}, tout en détaillant ses spécificités par rapport aux logiciels de notation présentés en section \ref{sec:notationMusiqueContemporaine}.
+Les démarches qui ont menées à la conception de \textit{symbolist} sont d'abord énoncées au travers du cas d'étude de Rama Gottfried, et de ses besoins de compositeur. Ensuite, une présentation \og haut-niveau \fg des objectifs du logiciel, ainsi que de ses interfaces est effectuée.
 
-	\section{Genèse et objectifs du projet symbolist}
+	\section{Un cas d'étude réel: genèse du projet symbolist}
 	\label{sec:geneseSymbolist}
 	\input{LeProjetSymbolist/geneseSymbolist.tex}	
 
@@ -175,7 +179,7 @@ Ce stage de master.
 %%%%% CHAPTER "ARCHITECTURE LOGICIELLE DE SYMBOLIST" %%%%%
 \chapter{Architecture logicielle de symbolist}
 \label{chap:architectureSymbolist}
-\todo[inline]{introduction pour le chapitre}
+Ce chapitre expose la contribution majeure de ce stage au développement du logiciel \textit{symbolist}. La première section pose le contexte architectural dans lequel se trouvait \textit{symbolist} au début du stage. La deuxième section souligne les changements  apportés à l'application du point de vue de son architecture logicielle.
 
 	\section{Présentation de l'architecture première}
 	\label{sec:architecturePremiere}
@@ -190,13 +194,15 @@ Ce stage de master.
 \label{chap:modeleDeNotation}
 	
 	\todo[inline]{Intro, présentation de la contribution à symbolist dans une optique de renouvellement du modèle de notation}
+	\section{Notation exécutable}
+	\label{sec:notationExecutable}
+	\input{ModeleDeNotation/notationExecutable.tex}	
+		
 	\section{Abstraction des concepts de la notation traditionnelle}
 	\label{sec:abstractionConcepts}
 	\input{ModeleDeNotation/abstractionConcepts.tex}
 
-	\section{Notation exécutable}
-	\label{sec:notationExecutable}
-	\input{ModeleDeNotation/notationExecutable.tex}
+
 	
 %%%%% CONCLUSION %%%%%
 \clearpage

@@ -4,9 +4,9 @@ De plus, dans un souci d'exhaustivité et étant donné les pratiques de notatio
 
 \subsection{Concept de staff} 
 \label{subsec:conceptDeStaff}
-Le concept de \textit{staff} (\gls{portee} en anglais) a été défini et implémenté dans \textit{symbolist}, précédemment au début du stage.
-Dans \textit{symbolist}, un staff peut être représenté graphiquement par n'importe quel symbole qui sera alors considéré comme le symbole référent. Chaque symbole d'une partition \textit{symbolist} possède un message \texttt{/staff} dans le bundle OSC les décrivant. Par exemple, un symbole est attaché au staff d'identifiant 12 si son message \texttt{/staff} vaut 12.
-Les symboles de la partition qui sont attachés à un \textit{staff} se voient attribuer une valeur temporelle de départ et de fin correspondant à leur point de départ et de fin sur le symbole référent.
+Le concept de \textit{staff} (\gls{portee} en anglais) a été défini et implémenté dans \textit{symbolist}.
+Dans notre application, un \textit{staff} peut être représenté graphiquement par n'importe quel symbole qui sera alors considéré comme le symbole référent. Chaque symbole d'une partition \textit{symbolist} possède un message \texttt{/staff} dans le bundle OSC les décrivant. Par exemple, un symbole est attaché au staff d'identifiant 12 si son message \texttt{/staff} vaut 12.
+Les symboles de la partition qui sont attachés à un \textit{staff} se voient attribuer une valeur temporelle de départ et de fin correspondant à leur point de départ et de fin vis à vis du symbole référent.
 Le staff est une manière d'ordonner horizontalement (localement) les symboles d'une partition \textit{symbolist}. 
 La figure \ref{fig:exempleDeStaff} montre un exemple de partition \textit{symbolist} composé d'un \textit{staff}, avec plusieurs symboles attachés, et de symboles libres.
 
@@ -57,7 +57,7 @@ La barre de lecture se déplace le long des symboles référents de chaque \text
 /staff/<nom du staff>/voice/<numéro de la voix>/<id du symbole>/<nom d'attribut> <valeur de l'attribut>
 \end{center}
 
-Si les symboles associés à un même \textit{staff} se chevauchent, alors chaque symbole est considéré comme appartenant à une voix différente, se concrétisant par l'affichage d'un identifiant de voix différent dans les informations envoyées sur la sortie. La figure \ref{fig:readingTheScore} montre également qu'aucune information concernant le symbole libre n'est affichée. Aussi, la structure de \textit{staff} permet de séparer dans un partition les parties destinées à l'humain et celles destinées aux processus informatiques, recevant les bundles OSC.
+Si les symboles associés à un même \textit{staff} se chevauchent, alors chaque symbole est considéré comme appartenant à une voix différente, se concrétisant par l'affichage d'un identifiant de voix différent dans les informations envoyées sur la sortie. La figure \ref{fig:readingTheScore} montre également qu'aucune information concernant le symbole libre n'est affichée. Aussi, la structure de \textit{staff} permet de séparer dans un partition les parties destinées à l'humain de celles destinées aux processus informatiques, recevant les bundles OSC.
 
 A chaque nouveau \textit{staff} créé dans la partition, l'intervalle de temps est continué. La figure \ref{fig:stavesCreation} explicite le phénomène d'extension de l'intervalle temporel avec la création de nouveaux \textit{staff}.
 
@@ -71,14 +71,12 @@ A chaque nouveau \textit{staff} créé dans la partition, l'intervalle de temps 
 	En noir, le premier \emph{staff} créé définit un intervalle $[t_1, t_2]$ avec $t_1 = 0.0$ et $t_2 = 3.0$. En vert, le deuxième \emph{staff} créé définit un intervalle $[t_3, t_4]$ avec $t_3 = 3.0$ et $t_4 = 5.0$. En rouge, le troisième \emph{staff} créé définit un intervalle $[t_5, t_6]$ avec $t_5 = 5.0$ et $t_6 = 7.0$.
 \end{figure}
 
-Le placement des symboles référents de chaque \textit{staff} sur l'axe horizontal n'a pas d'incidence sur l'intervalle temporel définit; seul l'ordre de création compte. Aussi, dans la figure \ref{fig:stavesCreation}, le \textit{staff} rouge est placé avant le \textit{staff} vert sur l'axe horizontal, néanmoins il représente un intervalle temporel supérieur.
-Le staff est aussi une manière de regrouper et de hiérarchiser les symboles. 
- 
+Le placement des symboles référents de chaque \textit{staff} sur l'axe horizontal n'a pas d'incidence sur l'intervalle temporel définit; seul l'ordre de création compte. Aussi, dans la figure \ref{fig:stavesCreation}, le \textit{staff} rouge est placé avant le \textit{staff} vert sur l'axe horizontal, néanmoins il représente un intervalle temporel supérieur. 
 
 \subsection{Concept de clef}
 \label{subsec:conceptDeClef}
 De fait, après avoir défini la sémantique du placement des symboles sur l'axe horizontal, la recherche de nouvelles fonctionnalités pour \textit{symbolist} a conduit à une réflexion sur la définition de la sémantique de l'axe vertical.
-La CWMN (Common Western Music Notation) possède le concept de \textit{clef}, qui est un symbole placé au début d'une portée, associant à chaque ligne de la portée un nom de note.
+La CWMN (Common Western Music Notation) possède le concept de \textit{clef}, qui est un symbole placé au début d'une portée, associant à chaque ligne de la portée une hauteur représentée par un nom de note\footnote{Dans la CWMN, la hauteur d'un son est défini par un nom de note et un numéro. Par exemple, un son de fréquence 440Hz correspond au couple nom-numéro $(la, 3)$. Néanmoins, par convention, le numéro des notes est omis lors de la lecture d'une partition.}.
 Aussi, les notes portent le nom de la ligne sur laquelle elles se trouvent.
 La figure montre un exemple de changement de clef sur une même portée qui a pour conséquence de changer le nom des notes placées à la suite.
 \begin{figure}[H]
@@ -91,57 +89,32 @@ La figure montre un exemple de changement de clef sur une même portée qui a po
 \end{figure}
 Si une clef de sol est inscrite sur la portée alors toutes les notes se trouvant à la suite sur la deuxième ligne de la portée auront pour nom \textit{sol}. Si une clef de fa est inscrite sur la portée alors toutes les notes se trouvant à la suite sur la deuxième ligne de la portée auront pour nom \textit{si}.
 
-En s'inspirant de la CWMN, le concept de clef a été défini pour l'application \textit{symbolist}, bien qu'il ne soit pas à ce jour implémenté. Comme pour la CWMN, une clef est associé à un \textit{staff} dans \textit{symbolist}. La clef va déterminer l'ordre vertical des symboles attachés au staff. Lorsqu'un \textit{staff} est défini, les symboles qui lui sont attachés sont ordonnés verticalement de manière arbitraire par l'utilisateur. Le placement de chaque symbole sur l'axe vertical est défini par le message OSC d'adresse \texttt{/y} associé à une valeur de type \textit{float}. 
-Pour expliciter l'action d'une clef, la structure de données du listing \ref{lst:structSymbol}, représentant la structure d'un symbole, est considérée.
+En s'inspirant de la CWMN, le concept de clef a été défini pour l'application \textit{symbolist}, bien qu'il ne soit pas à ce jour implémenté. Comme pour la CWMN, une clef est associé à un \textit{staff} dans \textit{symbolist}. En tirant profit du langage \textit{o.expr} (voir section \ref{subsec:odotLibrary}), une clef est définie dans \textit{symbolist} comme une liste d'expressions \textit{odot} s'appliquant à l'ensemble des symboles associés à un \textit{staff}.
+ Par exemple, une clef peut déterminer l'ordre vertical des symboles attachés à un \textit{staff} comme étant la fonction inverse du message \textit{/pitch}. Dans ce cas, la clef contiendra l'expression  /y $= 1 /$ /pitch.
 
-\begin{lstlisting}[language=C++,
-				   caption={Structure de donn\'{e}es pour un symbole}, 
-				   label={lst:structSymbol}, 
-				   captionpos={b}, 
-				   numbers=none]
-struct Symbol {
-	float y,
-	float x,
-	string type,
-	string name,
-	...
-}
-\end{lstlisting}
-
-La structure de données du listing \ref{lst:structSymbol} est introduite dans un but de clarté. Elle reflète la structure du bundle OSC associé à un symbole avec une syntaxe à la \textit{C++}. Les trois petits points indiquent que l'ensemble des champs de la structure ne sont pas présentés; seul le champ \lstinline|y| porte de l'intérêt pour la suite.  
-Aussi, une clef est une fonction, définie par l'utilisateur pour un \textit{staff} donné, qui prend un paramètre de type \texttt{struct Symbol} et qui renvoie une valeur de type \textit{float}.
-Pour expliciter la mise à jour de la position verticale de l'ensemble des symboles associés à un \textit{staff}, la procédure \ref{alg:applyKey} est présentée.
-
-% Dans \textit{symbolist}, \textit{y = 0} correspond à la ligne délimitant le haut de la fenêtre graphique. De plus, l'échelle de mesure est inversée, c'est à dire un point de coordonnées $(x_1, y_1)$ avec $y_1 = 3$, est représenté verticalement plus bas, sur une partition \textit{symbolist}, qu'un point $(x_2, y_2)$ avec $y_2 = 2$.
+Pour expliciter la transformation des symboles associés à un \textit{staff} par application d'une clef, la procédure \ref{alg:applyKey} est présentée.
 
 \begin{procedure}[H]
 	\caption{ApplyKey($staff$, $clef$)}
 	\label{alg:applyKey}
     
-    \SetKwFunction{clef}{Clef}
+    \SetKwFunction{applyExpr}{ApplyExpr}
+    
      
 	\KwData{$staff$ une liste de symboles, représentant l'ensemble des symboles attachés au staff pour lequel la clef va être appliquée.}
-	\KwData{$clef$ une fonction prenant en paramètre une variable de type \texttt{struct Symbol} et retournant une valeur de type \textit{float}}
-    \KwResult{La valeur de l'attribut $y$ de chacun des symboles du $staff$ est mise à jour par la valeur retournée par la fonction $clef$}
+	\KwData{$clef$ liste d'expressions \textit{odot}}
+    \KwResult{L'ensemble des expressions \textit{odot} contenues dans la clef sont appliquées aux symboles du $staff$}
 	
     \DontPrintSemicolon
     \BlankLine
     
-    	\tcp{$symbol.y$ est équivalent à la syntaxe $y(symbol)$}
+	\ForEach {$expr$ t.q $expr \in clef$}{
     	\ForEach {$symbol$ t.q $symbol \in staff$}{
-    		$symbol.y = clef(symbol)$\;
+    		\applyExpr{$expr$, $symbol$}\;
     	}
+    }    
 	
 \end{procedure}
-
-La fonction $clef$ de la procédure \ref{alg:applyKey} prend un paramètre de type \textit{struct Symbol} 
-pour pouvoir accéder aux attributs du symbole considéré, et les utiliser dans le calcul de la nouvelle valeur de $y$.
-Par exemple, en considérant que chaque symbole associé à un \textit{staff} possède un attribut \textit{color} qui est un vecteur de trois valeurs (RGB), la définition d'une clef pourrait être la suivante:
-\begin{center}
-	$clef(symbol) = \sqrt{symbol.color.x^2 + symbol.color.y^2 + symbol.color.z^2} $
-\end{center}
-
-Ici la clef calcule la norme du vecteur \textit{color} pour chaque symbole et utilise cette valeur pour les ordonner verticalement.
 
 
 \subsection{Intégration des symboles de la CWMN}
@@ -164,6 +137,6 @@ La figure donne un exemple de composition effectuée dans \textit{symbolist}, o�
 	\label{fig:bravuraCreation}
 	\small
 	\it
-	En rouge, quelques glyphes de la police \emph{Bravura} ajoutés à la palette..
+	En \textcolor{red}{rouge}, quelques glyphes de la police \emph{Bravura} ajoutés à la palette de \emph{symbolist}.
 \end{figure}
      

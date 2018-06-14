@@ -6,7 +6,8 @@ Aussi, cette idée d'encapsulation d'intelligence programmationnelle dans un sym
 
 \subsection{La librairie odot}
 \label{subsec:odotLibrary}
-La librairie \textit{odot}, devéloppé au laboratoire CNMAT de l'Université de Berkeley, offre une implémentation en langage C du format OSC. L'implémentation du format OSC par \textit{odot} a été encapsulé dans une hiérarchie de classes C++ afin de décrire la structure de données sous-jacente des symboles d'une partition \textit{symbolist}. Comme évoqué plus haut, \textit{odot} met à disposition un langage de programmation, appelé \textit{o.expr}, qui permet d'appliquer des expressions \og à la C \fg à des bundles OSC. \textit{o.expr} permet d'ajouter des messages à un bundle OSC ou de modifier la valeur d'un message préexistant. La figure \ref{fig:applyOdotExpr} donne un exemple de bundle OSC avant et après l'application d'une expression \textit{odot}.
+La librairie \textit{odot}, développée au laboratoire CNMAT de l'Université de Berkeley, offre une implémentation en langage C du format OSC augmenté de certaines possibilités. Notamment, le \og format \fg \textit{odot} multiplie les types de données pouvant être contenus dans un message OSC. Par exemple, un bundle OSC peut être stocké dans un message, rendant possible l'imbrication de bundles (comme au format JSON). 
+La librairie \textit{odot} a été encapsulé en C++ afin d'être intégré à \textit{symbolist}. Comme évoqué plus haut, \textit{odot} met à disposition un langage de programmation, appelé \textit{o.expr}, qui permet d'appliquer des expressions \og à la C \fg à des bundles OSC. \textit{o.expr} permet d'ajouter des messages à un bundle OSC ou de modifier la valeur d'un message préexistant. La figure \ref{fig:applyOdotExpr} donne un exemple de bundle OSC avant et après l'application d'une expression \textit{odot}.
 
 \begin{figure}[H]
 	\centering
@@ -17,9 +18,17 @@ La librairie \textit{odot}, devéloppé au laboratoire CNMAT de l'Université de
 	\textit{A gauche, le bundle OSC avant l'application de l'expression \emph{/perimeter = /diameter * pi()}. A droite, le bundle OSC résultant.}
 \end{figure}
 
-Le langage d'expressions \textit{odot} met à disposition de l'utilisateur un certain nombre de primitives: la plupart des fonctions définies dans la librairie \textit{math} du langage C, des fonctions pour la recherche et le listing d'adresses et de valeurs de messages OSC, mais aussi la possibilité de définir des lambda fonctions et des fonctions de mapping.
+Le langage d'expressions \textit{odot} met à disposition de l'utilisateur un certain nombre de primitives: des fonctions pour le calcul mathématique (\texttt{pi()}, \texttt{e()}, \texttt{sum()}, \texttt{product()}...), des fonctions pour la recherche et le listing d'adresses et de valeurs de messages OSC (\texttt{getadresses()}, \texttt{getvalues()}...), mais aussi la possibilité de définir des lambda fonctions et des fonctions de mapping (\texttt{lambda()}, \texttt{map()}...).
 
-Une des contributions de ce stage a été de rendre possible l'application d'expressions \textit{odot} à un symbole (qui est sous-jacemment un bundle OSC) dans une partition \textit{symbolist}. L'application d'une expression \textit{odot} à un symbole passe par l'inspecteur de l'interface \textit{symbolist}. Un exemple d'application d'une expression \textit{odot} à un symbole est présenté en figure .
+Une des contributions de ce stage a été de rendre possible l'application d'expressions \textit{odot} à un symbole (qui est sous-jacemment un bundle OSC) dans une partition \textit{symbolist}. L'application d'une expression \textit{odot} à un symbole passe par l'inspecteur de l'interface \textit{symbolist}, comme montré en figure.
+
+\todo[inline]{Ajouter une figure avec l'inspecteur symbolist et l'evaluation odot}
+
+Par convention, l'expression \textit{odot} à appliquer à un symbole est contenue dans le message OSC d'adresse \texttt{/expr}.
+Aussi, lors de la lecture d'une partition \textit{symbolist}, chaque symbole envoyé en sortie est évalué, c'est à dire l'expression \textit{odot} contenue dans \texttt{/expr} -  sous réserve de son existence - est appliquée au symbole.
+De cette manière, un nombre illimité de nouvelles informations peuvent être générées lors de la lecture d'une partition \textit{symbolist}. La figure montre comment une expression \textit{odot} peut être utilisée pour créer d'autres symboles, notamment grâce aux objets \textit{Max} de la librairie \textit{odot}.
+
+\todo[inline]{Ajouter une figure avec un exemple de création de nouveau bundle en bouclant sur l'objet symbolist}
 
 \subsection{La partition comme pilote des paramètres du son} 
 \label{subsec:partitionPiloteSon}
@@ -32,7 +41,7 @@ Une exemple simple peut être pris pour illustré le principe de connexion entre
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[keepaspectratio=true, width=\textwidth]{StructurationRecherche/i/linkingParameters.png}
+	\includegraphics[keepaspectratio=true, width=\textwidth]{ModeleDeNotation/i/linkingParameters.png}
 	\caption{Liaison de paramètres entre une partition et un synthétiseur}
 	\label{fig:linkingParameters}
 	\small
@@ -48,13 +57,13 @@ Soit, la hauteur du son produit par le synthétiseur est une fonction de la haut
 	\item \textbf{(Semi-)Automatiquement}: Un protocole de communication peut être mis en place pour la connexion de \textit{symbolist} et du synthétiseur; le protocole mettra en relation les messages exposés par la partition \textit{symbolist} et les messages pouvant être reçus par le synthétiseur. Aussi, l'utilisateur devra s'assurer que les paramètres sont correctement liés, d'où le caractère semi-automatique de cette procédure. 
 \end{enumerate}
 %
-Dans les deux cas, la fonction $f$ qui permettra, pour reprendre l'exemple, de lier la valeur de \texttt{/pitch} à \texttt{/y(t)} pourra être précisée en tirant profit des expressions \textit{odot} (voir section \todo{Ajout ref expressions odot}).
+Dans les deux cas, la fonction $f$ qui permettra, pour reprendre l'exemple, de lier la valeur de \texttt{/pitch} à \texttt{/y(t)} pourra être précisée en tirant profit des expressions \textit{odot} (voir section \ref{subsec:odotLibrary}).
 Aussi, le protocole de communication devra s'assurer qu'une partition \textit{symbolist} est bien \textit{composable} avec le processus qu'elle veut contrôler. Entre autres, les interfaces exposées par l'un et l'autre doivent être compatibles \cite{chen2007}. Un des critères de la compatibilité peut simplement être la nécessité de mise en relation de paramètre du même type. Dans notre exemple, si \textit{/pitch} est de type \textit{float} et la valeur retournée par $f(/y(t))$ est une chaîne de caractères, alors la partition n'est pas composable avec le synthétiseur.
 
 Pour réaliser cette fonctionnalité de connexion entre partition et processus de production sonore, deux technologies provenant du monde de l'informatique musicale possèdent un intérêt. La première technologie est le framework \textit{jamoma} qui permet l'encapsulation de patches Max\footnote{Pour rappel, un patch Max est une composition d'objets du langage de programmation visuelle Max. Les objets d'un patch Max sont reliés entre eux par des cordes, permettant leur communication par envoi de messages.} dans un module. Un module \textit{jamoma} déclare ses interfaces d'entrée et de sortie sous forme de liste de messages OSC, comme montré en figure \ref{fig:jamomaModule}.
 \begin{figure}[H]
 	\centering
-	\includegraphics[keepaspectratio=true, width=0.5\textwidth]{StructurationRecherche/i/jamomaModule.png}
+	\includegraphics[keepaspectratio=true, width=0.5\textwidth]{ModeleDeNotation/i/jamomaModule.png}
 	\caption{Structure d'un module jamoma}
 	\label{fig:jamomaModule}
 	\small

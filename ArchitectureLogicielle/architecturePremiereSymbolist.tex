@@ -1,12 +1,12 @@
+Cette section décrit les technologies utilisées pour le développement et le déploiement de l'application \textit{symbolist}, ainsi que la structure logicielle de l'application au début du stage.
+
 \subsection{Framework de développement pour l'application symbolist}
 \label{subsec:frameworkAndTechnologies}
-\textit{symbolist} est développé avec le framework \textit{C++} \textit{JUCE} \cite{juce2018}. L'environnement \textit{JUCE} est un standard pour le développement d'applications liées à l'audio. Dans le cas de \textit{symbolist}, \textit{JUCE} a été utilisé pour ses capacités de gestion des bundles OSC et création d'interface graphique. La librairie \textit{odot} a ensuite été préférée pour la gestion des bundles OSC dans \textit{symbolist}. En effet, \textit{odot} augmente les capacités du format OSC, en lui adjoignant par exemple un léger langage de programmation. Aujourd'hui \textit{JUCE} n'est donc plus utilisé dans \textit{symbolist} que pour ses composants graphiques. 
+\textit{symbolist} est développé avec le framework \textit{C++} \textit{JUCE} \cite{juce2018}. L'environnement \textit{JUCE} est un standard pour le développement d'applications liées à l'audio. Dans le cas de \textit{symbolist}, \textit{JUCE} a été utilisé pour ses capacités de gestion des bundles OSC et de création d'interfaces graphiques. La librairie \textit{odot} a ensuite été préférée pour la gestion des bundles OSC dans \textit{symbolist} (voir section \ref{subsec:odotLibrary}). En effet, \textit{odot} augmente les capacités du format OSC, en lui adjoignant par exemple un léger langage de programmation. Aujourd'hui \textit{JUCE} n'est donc plus utilisé dans \textit{symbolist} que pour ses composants graphiques. 
 
-En plus de son framework de développement, l'application \textit{symbolist} est également destinée à être déployée dans les deux environnements que sont \textit{Max} et \textit{OpenMusic}. Aussi, la construction de l'application \textit{symbolist} en tant qu'objet \textit{Max} et \textit{OpenMusic} est détaillée ci-après.
+En plus de son framework de développement, l'application \textit{symbolist} est également destinée à être déployée dans les environnements \textit{Max} et \textit{OpenMusic}. Aussi, la construction de l'application \textit{symbolist} en tant qu'objet \textit{Max} et \textit{OpenMusic} est détaillée ci-après.
 
-\paragraph{Création d'un objet Max} Max propose une API pour la création de nouveaux objets \cite{maxApi2018}. L'API Max est écrite en \textit{C}, ainsi que doivent l'être les objets créés par les utilisateurs pour étendre le système.
-Ces objets sont appelés des \textit{externals} dans Max.
-Ils doivent posséder une certaine structure pour pouvoir être compilé et utilisé par la suite:
+\paragraph{Création d'un objet Max.} Max propose une API pour la création de nouveaux objets \cite{maxApi2018}. L'API Max est écrite en \textit{C}, ainsi que doivent l'être les objets créés par les utilisateurs pour étendre le système. Ces objets sont appelés des \textit{externals}. Ils doivent posséder une certaine structure pour pouvoir être compilé et utilisé par la suite:
 \begin{itemize}[label=--]
 	\item Le fichier de définition de l'external doit inclure le header \textit{ext.h} à la première ligne.
 	\item Le nouvel objet défini doit être déclaré comme une structure \textit{C} avec un premier champ de type spécial.
@@ -14,42 +14,41 @@ Ils doivent posséder une certaine structure pour pouvoir être compilé et util
 	\item Ces méthodes sont liées à l'objet au sein de la procédure \lstinline|ext_main| qui fait office de procédure d'initialisation. De fait, \lstinline|ext_main| est appelée lorsque l'objet cible est appelé dans un patch Max, c'est à dire lorsque son nom est tapé dans une boîte.
 \end{itemize}
 
-L'application \textit{symbolist} étant implémentée en \textit{C++}, une API équivalente en \textit{C} a été écrite afin de pouvoir communiquer avec \textit{Max} et \textit{OpenMusic}.
+L'application \textit{symbolist} étant implémentée en \textit{C++}, une API équivalente en \textit{C} a été écrite afin de pouvoir communiquer avec \textit{Max} (et \textit{OpenMusic}).
 Les méthodes fournies par l'API \textit{C} \textit{symbolist} sont présentées en annexe , page .
 \todo[inline]{Ajouter l'API C symbolist en annexe}  
 
-\paragraph{Création d'un objet OpenMusic} \textit{OpenMusic} pouvant être vu comme une surcouche graphique du langage \textit{Common Lisp} et de son système objet \textit{CLOS} \cite{bresson2009}, la création de nouveaux objets \textit{OpenMusic} est équivalent à la définition d'une nouvelle classe \textit{Lisp}.
-Par exemple, l'objet \textit{symbolist} dans \textit{OpenMusic} est définie comme une classe possédant deux attributs: l'attribut \textit{symbols}, une liste de bundles OSC représentant la partition, et l'attribut \textit{palette-symbols}, une autre liste de bundles OSC représentant la palette des symboles disponibles.  
-De fait, la boîte représentant l'objet \textit{symbolist} dans \textit{OpenMusic} possède trois points d'entrée et de sortie. Le premier point d'entrée correspond à la définition par copie d'un objet \textit{symbolist} par un autre objet \textit{symbolist}; le point d'entrée est dénommé \textit{self}. Les deux autres points d'entrées correspondent aux attributs de l'objet \textit{symbolist}, \textit{symbols} et \textit{palette-symbols}.
+\paragraph{Création d'un objet OpenMusic} \textit{OpenMusic} pouvant être vu comme une surcouche graphique du langage \textit{Common Lisp} et de son système objet \textit{CLOS} \cite{bresson2009}, la création de nouveaux objets \textit{OpenMusic} est équivalent à la définition de nouvelles classes \textit{Lisp}.
+Par exemple, l'objet \textit{symbolist} dans \textit{OpenMusic} est défini comme une classe possédant deux attributs: l'attribut \textit{symbols}, une liste de bundles OSC représentant la partition, et l'attribut \textit{palette-symbols}, une autre liste de bundles OSC représentant la palette des symboles disponibles.  
+De fait, la boîte représentant l'objet \textit{symbolist} dans \textit{OpenMusic} possède trois points d'entrée et de sortie. Le premier point d'entrée correspond à la définition par copie d'un objet \textit{symbolist} par un autre objet \textit{symbolist}. Les deux autres points d'entrées correspondent aux attributs de l'objet \textit{symbolist}, \textit{symbols} et \textit{palette-symbols}.
 Les mêmes points se retrouvent symétriquement définis en sortie.
 
 Un objet \textit{OpenMusic} peut également être muni d'un éditeur, c'est à dire une fenêtre graphique apparaissant lors d'un double-clic sur l'objet. L'éditeur associé à un objet \textit{OpenMusic} est défini par une classe \textit{Lisp} étendant la classe \textit{OMEditor}. 
-Dans le cas de l'objet \textit{symbolist}, son éditeur fait la liaison avec l'API \textit{C} permettant de contrôler avec l'application \textit{symbolist} et son interface.
+Dans le cas de l'objet \textit{symbolist}, son éditeur fait la liaison avec l'API \textit{C} permettant de contrôler l'application \textit{symbolist} et son interface.
  
 \subsection{Architecture de l'application symbolist}
 \label{subsec:architectureBefore}
-Le framework \textit{JUCE}, utilisé pour développer l'application \textit{symbolist}, n'impose pas d'architecture logicielle. Aussi, les applications développées avec ce framework définissent chacune leurs propres structures.
-L'architecture logicielle de \textit{symbolist} n'est pas clairement définie au début de ce stage, néanmoins trois parties peuvent être distinguées dans le code source. 
+Le framework \textit{JUCE}, utilisé pour l'application \textit{symbolist}, n'impose pas d'architecture logicielle. Aussi, les applications développées avec ce framework définissent chacune leurs propres structures.
+L'architecture logicielle de \textit{symbolist} n'est pas clairement délimitée au début de ce stage, néanmoins trois parties peuvent être distinguées dans le code source. 
 
 Une première partie est centrée autour de la classe \textit{SymbolistHandler}. Cette classe permet l'accès depuis l'extérieur à l'application \textit{symbolist}. A savoir, l'API \textit{C} permettant à \textit{Max} et \textit{OpenMusic} de communiquer avec \textit{symbolist} appelle les méthodes de la classe \textit{SymbolistHandler} pour pouvoir interagir avec le reste de l'application.
 
 Une deuxième partie correspond aux composants graphiques construisant l'interface de \textit{symbolist}. La fenêtre principale de l'application \textit{symbolist} est représentée par la classe \textit{SymbolistMainComponent}. Cette partie comprend également toute la hiérarchie des composants graphiques représentant les symboles de la partition.
 
 La troisième partie de l'application regroupe les classes du \og cœur métier \fg, représentant la partition et la palette du compositeur. 
-S'y trouvent les classes implémentant la structure des bundles OSC, où plus précisément des bundles \textit{odot}, qui définissent le format de données sous-jacent des symboles de la partition.
-Pour décrire les symboles de la partition, l'application \textit{symbolist} possède une unique classe \textit{Symbol} (qui hérite de la classe \textit{OdotBundle}). De fait, chaque symbole de la partition, qu'il soit un rond, un carré, une note de musique, ou du texte, est représentée par une instance de la classe \textit{Symbol}. Les spécificités d'un symbole ne sont pas explicitées par sa classe d'appartenance; 
+S'y trouvent les classes implémentant la structure des bundles OSC, qui définissent le format de données sous-jacent des symboles de la partition.
+Pour décrire les symboles de la partition, l'application \textit{symbolist} possède une unique classe \textit{Symbol} (qui hérite de la classe \textit{OSCBundle}). De fait, chaque symbole de la partition, qu'il soit un rond, un carré, une note de musique, ou du texte, est représentée par une instance de la classe \textit{Symbol}. Les spécificités d'un symbole ne sont pas explicitées par sa classe d'appartenance; 
 à savoir, le modèle ne prévoit pas de classes \textit{Circle}, \textit{Square} ou \textit{MusicNote}.
 En effet, la philosophie de \textit{symbolist} est de conserver l'information des symboles dans les bundles OSC sous-jacents afin de pouvoir distribuer plus facilement les données de la partition.
-Les classes du cœur métier incluent également toute la logique d'ordonnancement temporel des symboles associés à un \textit{staff}.
+Les classes du cœur métier incluent également toute la logique d'ordonnancement temporel des symboles associés à une portée (\textit{staff}) (voir section \ref{subsec:conceptDeStaff}).
 Le diagramme de classes détaillée du cœur métier de l'application \textit{symbolist} est présenté en annexe \ref{sec:symbolistModelClassDiagram}, page~\pageref{sec:symbolistModelClassDiagram}.
 
 \paragraph{Problématiques architecturales} Plusieurs aspects posent un problème dans l'architecture de l'application \textit{symbolist} telle qu'elle se trouve au début du stage.
 
-Premièrement, de la description des composantes de l'application \textit{symbolist} se dégage aisément une architecture de type \textit{modèle-vue-contrôleur}. Cependant, les interactions entre composantes et le rôle de chacune d'elles ne sont pas biens définis. Par exemple, la création de symboles dans \textit{symbolist}, de fait l'écriture dans le \textit{modèle}, est trop souvent réalisée par les composants graphiques du système, ce qui est contraire à l'architecture \textit{MVC}. 
+Premièrement, de la description des composantes de l'application \textit{symbolist} se dégage aisément une architecture de type \textit{modèle-vue-contrôleur} (MVC). Cependant, les interactions entre composantes et le rôle de chacune d'elles ne sont pas biens définis. Par exemple, la création de symboles dans \textit{symbolist}, de fait l'écriture dans le \textit{modèle}, est trop souvent réalisée par les composants graphiques du système, ce qui est contraire à l'architecture \textit{MVC}. 
 
 Deuxièmement, même si le modèle de l'application \textit{symbolist} place les symboles de la partition à un même niveau dans la hiérarchie des classes (à savoir, il n'existe qu'une seule classe \textit{Symbol}), les composants graphiques sont eux le reflet de la structure de la partition.
 C'est à dire, chaque type de composant graphique est représenté par une classe: par exemple, les cercles sont représentés par la classe \textit{CircleComponent}, les rectangles par la classe \textit{RectangleComponent}…
 Aussi, comme les symboles de la partition peuvent être groupés afin de créer de nouveaux symboles, le design pattern \textit{Composite} est approprié à la hiérarchie des composants graphiques. 
-Or, au début de ce stage, le design pattern \textit{Composite} n'est pas correctement appliqué. 
 
-Troisièmement, la classe \textit{SymbolistHandler}, qui est directement liée à l'API \textit{C} rendant \textit{symbolist} utilisable par d'autres programmes, s'occupe de toutes les interactions avec les vues de l'interface: la palette, la partition, l'inspecteur… Aussi, la classe \textit{SymbolistHandler} est trop encombrée, et les interactions avec des vues spécifiques mériteraient d'être gérées par des contrôleurs spécifiques.
+Troisièmement, la classe \textit{SymbolistHandler}, qui est directement liée à l'API \textit{C} rendant \textit{symbolist} utilisable par d'autres programmes, s'occupe de toutes les interactions avec les vues de l'interface: la palette, la partition, l'inspecteur… Aussi, la classe \textit{SymbolistHandler} est encombrée. Les interactions avec des vues spécifiques mériteraient d'être gérées par des contrôleurs spécifiques.
