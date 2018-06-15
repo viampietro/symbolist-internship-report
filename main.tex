@@ -157,7 +157,6 @@ Ce stage de master.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introduction}
 \input{Introduction/introduction.tex}
-	\todo[inline]{Avant les rappels de l'étude bibliographique, faire une réelle introduction en explicitant l'aspect recherche en informatique musicale du stage}
 	\section{Sur la notation de la musique contemporaine}
 	\label{sec:notationMusiqueContemporaine}
 	\input{Introduction/rappelEtudeBiblio.tex}
@@ -171,7 +170,8 @@ Les démarches qui ont menées à la conception de \textit{symbolist} sont d'abo
 	\section{Un cas d'étude réel: genèse du projet symbolist}
 	\label{sec:geneseSymbolist}
 	\input{LeProjetSymbolist/geneseSymbolist.tex}	
-
+	\newpage
+	
 	\section{Analyse de l'existant}
 	\label{sec:analyseSymbolist}
 	\input{LeProjetSymbolist/analyseExistant.tex}
@@ -179,7 +179,7 @@ Les démarches qui ont menées à la conception de \textit{symbolist} sont d'abo
 %%%%% CHAPTER "ARCHITECTURE LOGICIELLE DE SYMBOLIST" %%%%%
 \chapter{Architecture logicielle de symbolist}
 \label{chap:architectureSymbolist}
-Ce chapitre expose la contribution majeure de ce stage au développement du logiciel \textit{symbolist}. La première section pose le contexte architectural dans lequel se trouvait \textit{symbolist} au début du stage. La deuxième section souligne les changements  apportés à l'application du point de vue de son architecture logicielle.
+Ce chapitre expose la contribution majeure de ce stage au développement du logiciel \textit{symbolist}: le \textit{refactoring} logiciel. La première section pose le contexte architectural dans lequel se trouvait \textit{symbolist} au début du stage. La deuxième section souligne les changements  apportés à l'application du point de vue de son architecture logicielle.
 
 	\section{Présentation de l'architecture première}
 	\label{sec:architecturePremiere}
@@ -192,11 +192,14 @@ Ce chapitre expose la contribution majeure de ce stage au développement du logi
 %%%%% CHAPTER "VERS UN MODELE ABSTRAIT ET EXECUTABLE POUR LA NOTATION MUSICALE" %%%%%
 \chapter{Vers un modèle abstrait et exécutable pour la notation musicale}
 \label{chap:modeleDeNotation}
-	
-	\todo[inline]{Intro, présentation de la contribution à symbolist dans une optique de renouvellement du modèle de notation}
+L'application \textit{symbolist} cherche à renouveler, à travers les fonctionnalités qu'elle offre, le modèle de notation de la musique, et même ouvre des pistes pour la notation de compositions multimédias. Le modèle de notation proposé par \textit{symbolist} se veut également être une synthèse de plusieurs approches pour l'écriture de la musique.
+Ce chapitre présente les résultats de l'étude menée pendant ce stage, ainsi que les contributions au développement du logiciel \textit{symbolist}, dans une optique de recherche en informatique musicale centrée autour de la notation des pièces contemporaines.
+La première section s'intéresse au concept de notation exécutable et présente une technologie, la librairie \textit{odot}, qui apporte aux partitions \textit{symbolist} une expressivité supplémentaire. La deuxième section décrit deux concepts inspirés de la notation traditionnelle occidentale, qui ont été étudiés pour être intégrés à \textit{symbolist}.
+
 	\section{Notation exécutable}
 	\label{sec:notationExecutable}
-	\input{ModeleDeNotation/notationExecutable.tex}	
+	\input{ModeleDeNotation/notationExecutable.tex}
+	\newpage	
 		
 	\section{Abstraction des concepts de la notation traditionnelle}
 	\label{sec:abstractionConcepts}

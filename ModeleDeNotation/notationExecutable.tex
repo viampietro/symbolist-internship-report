@@ -20,15 +20,20 @@ La librairie \textit{odot} a été encapsulé en C++ afin d'être intégré à \
 
 Le langage d'expressions \textit{odot} met à disposition de l'utilisateur un certain nombre de primitives: des fonctions pour le calcul mathématique (\texttt{pi()}, \texttt{e()}, \texttt{sum()}, \texttt{product()}...), des fonctions pour la recherche et le listing d'adresses et de valeurs de messages OSC (\texttt{getadresses()}, \texttt{getvalues()}...), mais aussi la possibilité de définir des lambda fonctions et des fonctions de mapping (\texttt{lambda()}, \texttt{map()}...).
 
-Une des contributions de ce stage a été de rendre possible l'application d'expressions \textit{odot} à un symbole (qui est sous-jacemment un bundle OSC) dans une partition \textit{symbolist}. L'application d'une expression \textit{odot} à un symbole passe par l'inspecteur de l'interface \textit{symbolist}, comme montré en figure.
+Une des contributions de ce stage a été de rendre possible l'application d'expressions \textit{odot} à un symbole (qui est sous-jacemment un bundle OSC) dans une partition \textit{symbolist}. L'application d'une expression \textit{odot} à un symbole passe par l'inspecteur de l'interface \textit{symbolist}, comme montré en figure \ref{fig:evaluateBundle}.
 
-\todo[inline]{Ajouter une figure avec l'inspecteur symbolist et l'evaluation odot}
+\begin{figure}[H]
+	\centering
+	\includegraphics[keepaspectratio=true, width=\textwidth]{ModeleDeNotation/i/evaluateBundle.png}
+	\caption{Evaluation d'un bundle via l'interface de symbolist}
+	\label{fig:evaluateBundle}
+	\small
+	\textit{En \textcolor{red}{rouge}, l'expression \emph{odot} à évaluer pour le symbole courant (l'ovale bleu sélectionné dans la fenêtre de gauche), et le bouton servant à lancer l'évaluation. En vert, le résultat de l'application de l'expression \emph{odot} au symbole courant (modification de la valeur du message \texttt{/y}).}
+\end{figure}
 
 Par convention, l'expression \textit{odot} à appliquer à un symbole est contenue dans le message OSC d'adresse \texttt{/expr}.
 Aussi, lors de la lecture d'une partition \textit{symbolist}, chaque symbole envoyé en sortie est évalué, c'est à dire l'expression \textit{odot} contenue dans \texttt{/expr} -  sous réserve de son existence - est appliquée au symbole.
-De cette manière, un nombre illimité de nouvelles informations peuvent être générées lors de la lecture d'une partition \textit{symbolist}. La figure montre comment une expression \textit{odot} peut être utilisée pour créer d'autres symboles, notamment grâce aux objets \textit{Max} de la librairie \textit{odot}.
-
-\todo[inline]{Ajouter une figure avec un exemple de création de nouveau bundle en bouclant sur l'objet symbolist}
+De cette manière, un nombre illimité de nouvelles informations peuvent être générées lors de la lecture d'une partition \textit{symbolist}.
 
 \subsection{La partition comme pilote des paramètres du son} 
 \label{subsec:partitionPiloteSon}
